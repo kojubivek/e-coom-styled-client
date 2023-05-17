@@ -8,10 +8,12 @@ import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import MailIcon from "@mui/icons-material/Mail";
+import { mobile } from "../responsive";
 const Container = styled.div`
   display: flex;
   flex: 1;
   min-height: 40vh;
+  ${mobile({ flexDirection: "column" })}
 `;
 const Left = styled.div`
   display: flex;
@@ -47,6 +49,7 @@ const SocialIcon = styled.h1`
 const Center = styled.div`
   flex: 1;
   padding: 20px;
+  ${mobile({ display: "none" })}
 `;
 const Title = styled.h3`
   margin-bottom: 30px;
@@ -66,6 +69,7 @@ const Right = styled.div`
   flex: 1;
   padding: 20px;
   flex-wrap: wrap;
+  ${mobile({ backgroundColor: "#f49d83" })}
 `;
 const ContactItem = styled.div`
   margin-bottom: 20px;

@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import BgImg from "../assests/imgs/Soccerthemebackgro.jpg";
+import { mobile } from "../responsive";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -9,14 +10,17 @@ const Container = styled.div`
       rgba(255, 255, 255, 0.5)
     ),
     url(${BgImg}) center;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 const Wrapper = styled.div`
   padding: 20px;
-  width: 40%;
+  min-width: 25%;
+
   background: #fff;
+  ${mobile({ width: "75%" })}
 `;
 const Title = styled.h1`
   font-style: 24px;
@@ -26,6 +30,7 @@ const Title = styled.h1`
 const Form = styled.form`
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
 `;
 const Input = styled.input`
   flex: 1;
@@ -34,12 +39,13 @@ const Input = styled.input`
   padding: 10px;
 `;
 const Button = styled.button`
-  width: 40%;
+  width: 100%;
   border: nonw;
   padding: 15px 20px;
   background-color: #b87777;
   cursor: pointer;
   color: #fff;
+  flex: 1;
 `;
 const Agreement = styled.span`
   font-size: 12px;

@@ -3,14 +3,15 @@ import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutl
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 import { styled } from "styled-components";
 import { sliderItems } from "../data";
+import { mobile } from "../responsive";
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: start;
+
   position: relative;
   overflow: hidden;
+  ${mobile({ display: "none" })}
 `;
 const Arrow = styled.div`
   height: 50px;

@@ -7,16 +7,19 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { Badge } from "@mui/material";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
-
+import { mobile } from "../responsive";
 const Container = styled.div`
   height: 60px;
   background-color: "#000";
+  margin-bottom: 20px;
+  ${mobile({ height: "50px" })}
 `;
 const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  ${mobile({ padding: "10px 0px" })}
 `;
 const Left = styled.div`
   flex: 1;
@@ -26,27 +29,32 @@ const Left = styled.div`
 const Language = styled.span`
   font-size: 14px;
   cursor: pointer;
+  ${mobile({ display: "none" })}
 `;
 const SearchBar = styled.div`
   border: 1px solid lightgray;
   display: flex;
   align-items: center;
-  margin-left: 25px;
+  margin-left: 5px;
+  margin-right: 8px;
   padding: 5px;
 `;
 const Input = styled.input`
   border: none;
+  ${mobile({ width: "50px" })}
 `;
 const Right = styled.div`
   flex: 1;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  ${mobile({ flex: 2, justifyContent: "center" })}
 `;
 const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin: 25px;
+  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
 const Center = styled.div`
@@ -57,6 +65,7 @@ const Center = styled.div`
 `;
 const Logo = styled.h1`
   font-weight: bold;
+  ${mobile({ fontSize: "24px" })}
 `;
 
 export const NavBar = () => {
@@ -67,7 +76,7 @@ export const NavBar = () => {
           <Language>En</Language>
           <SearchBar>
             {" "}
-            <Input />
+            <Input placeholder="Search" />
             <SearchIcon
               style={{ color: "gray", fontSize: "16px" }}
             ></SearchIcon>
