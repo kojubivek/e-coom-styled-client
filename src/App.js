@@ -1,4 +1,5 @@
 import "./App.css";
+import { Pay } from "./components/Pay";
 import { Product } from "./components/Product";
 import { Cart } from "./pages/Cart";
 import { Home } from "./pages/Home";
@@ -10,7 +11,7 @@ import { RegisterPage } from "./pages/RegisterPage";
 const App = () => {
   return (
     <div className="App">
-      <Cart />
+      <Pay />
     </div>
   );
 };
