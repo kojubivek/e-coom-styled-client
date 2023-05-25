@@ -27,16 +27,19 @@ export const categories = [
     id: 1,
     img: require("./assests/imgs/arsenal.jpg"),
     title: "Arsenal Home Jersey",
+    cat: "Jersey",
   },
   {
     id: 2,
     img: require("./assests/imgs/nikeboots.jpg"),
     title: "Nike Gripknit Phantom GX Elite FG",
+    cat: "shoes",
   },
   {
     id: 3,
     img: require("./assests/imgs/arsenalshorts.jpg"),
     title: "Brighton & Hove Albion Away Kit",
+    cat: "shorts",
   },
 ];
 

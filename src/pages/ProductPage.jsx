@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { Annoucement } from "../components/Annoucement";
 import { NavBar } from "../components/NavBar";
@@ -7,6 +7,8 @@ import { Footer } from "../components/Footer";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { mobile } from "../responsive";
+import { useLocation } from "react-router-dom";
+import { publicRequest } from "../helper/axiosHelper";
 const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 50px;
@@ -106,6 +108,34 @@ const Button = styled.button`
 `;
 
 export const ProductPage = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(0);
+  const [color, setColor] = useState(0);
+  const [size, setSize] = useState(0);
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/" + id);
+        setProduct(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProduct();
+  }, [id]);
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity >= 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+  const handleClick = () => {
+    //update cart
+  };
   return (
     <Container>
       <Annoucement />
@@ -115,12 +145,13 @@ export const ProductPage = () => {
           <Image src={require("../assests/imgs/Ac milan home kit.jpg")} />
         </ImgContainer>
         <InfoContainer>
-          <Tittle>AC Milan Home Kit</Tittle>
+          <Tittle>{product.title}</Tittle>
           <Description>AC Milan Home Kit</Description>
           <Price>$150</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
+
               <FilterColor color="yellow"></FilterColor>
               <FilterColor color="red"></FilterColor>
               <FilterColor color="blue"></FilterColor>
@@ -128,7 +159,7 @@ export const ProductPage = () => {
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
                 <FilterSizeOption disabled selected>
                   Size
                 </FilterSizeOption>
@@ -142,11 +173,11 @@ export const ProductPage = () => {
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <RemoveIcon />
-              <Amount>1</Amount>
-              <AddIcon />
+              <RemoveIcon onClick={() => handleQuantity("dec")} />
+              <Amount>{quantity}</Amount>
+              <AddIcon onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button>Add To Cart</Button>
+            <Button onClick={handleClick}>Add To Cart</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

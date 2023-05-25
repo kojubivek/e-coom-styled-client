@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import { Link } from "react-router-dom";
 
 const Circle = styled.div`
   width: 250px;
@@ -69,7 +70,9 @@ export const SingleProducts = ({ item }) => {
           <ShoppingCartOutlinedIcon />
         </Icon>
         <Icon>
-          <SearchOutlinedIcon />
+          <Link to={`/product/${item.id}`}>
+            <SearchOutlinedIcon />
+          </Link>
         </Icon>
         <Icon>
           <FavoriteBorderOutlinedIcon />
