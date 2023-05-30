@@ -22,7 +22,7 @@ const Button = styled.button`
   cursor: pointer;
   color: #fff;
 `;
-export const Pay = () => {
+export const Pay = ({ children }) => {
   const [stripeToken, setStripeToken] = useState(null);
   const onToken = (token) => {
     setStripeToken(token);
@@ -54,9 +54,7 @@ export const Pay = () => {
         amount={3000}
         token={onToken}
         stripeKey={key}
-      >
-        <Button>Pay Now</Button>
-      </StripeCheckout>
+      ></StripeCheckout>
     </Container>
   );
 };
