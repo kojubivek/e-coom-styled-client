@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { NavBar } from "../components/NavBar";
 import { Annoucement } from "../components/Annoucement";
@@ -7,6 +7,9 @@ import { Newsletter } from "../components/Newsletter";
 import { Footer } from "../components/Footer";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
+import { ProductCard } from "../components/ProductCard";
+import { useDispatch, useSelector } from "react-redux";
+import { getproducts } from "../redux/product/productAction";
 const Container = styled.div``;
 const Title = styled.h1`
   margin: 20px;
@@ -15,6 +18,7 @@ const Title = styled.h1`
 const FilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 100px;
 `;
 
 const Filter = styled.div`
@@ -42,10 +46,22 @@ const Option = styled.option`
   font-weight: 600;
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  padding: 20px;
+
+  justify-content: space-between;
+  align-items: center;
+  ${mobile({ padding: "0px", flexDirection: "column" })}
+`;
+
 export const ProductList = () => {
+  const [products, setproducts] = useState([]);
+  const dispatch = useDispatch();
   const location = useLocation();
-  console.log(location.pathname.split("/")[2]);
+
   const cat = location.pathname.split("/")[2];
+
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState("popular");
   const handleFilters = (e) => {
@@ -56,11 +72,22 @@ export const ProductList = () => {
     });
   };
 
+  const allproducts = useSelector((state) => state.product.products);
+
+  const getselectedProducts = (cat) => {
+    return allproducts.filter((item) => cat === item.parentCat);
+  };
+
+  useEffect(() => {
+    dispatch(getproducts());
+    setproducts(getselectedProducts(cat));
+  }, [dispatch, cat]);
+
   return (
     <Container>
       <Annoucement />
       <NavBar />
-      <Title>{cat}</Title>
+      <Title></Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Product</FilterText>
@@ -95,7 +122,17 @@ export const ProductList = () => {
           </Select>
         </Filter>
       </FilterContainer>
-      <Product cat={cat} filters={filters} sort={sort} />
+      <Wrapper>
+        {products.map((item, i) => (
+          <ProductCard
+            id={item._id}
+            name={item.name}
+            imageSrc={item.images}
+            price={item.price}
+          />
+        ))}
+      </Wrapper>
+
       <Newsletter />
       <Footer />
     </Container>

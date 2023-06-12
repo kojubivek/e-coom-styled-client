@@ -85,7 +85,7 @@ export const LoginPage = () => {
 
           <Input
             placeholder="Password"
-            type="passwrod"
+            type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
 
@@ -94,7 +94,7 @@ export const LoginPage = () => {
           </Button>
           {error && <Error>something went wrong</Error>}
           <Link>Forgot Password?</Link>
-          <Link>Create A new Account</Link>
+          <Link to="/register">Create A new Account</Link>
         </Form>
       </Wrapper>
     </Container>

@@ -8,12 +8,19 @@ import { styled } from "styled-components";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { mobile } from "../responsive";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {
+  addProduct,
+  clearItemFromCart,
+  removeItemFromCart,
+} from "../redux/cartRedux";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 const Container = styled.div``;
 const Wrapper = styled.div`
+  margin-top: 100px;
   padding: 20px;
   ${mobile({ margin: "10px" })}
 `;
@@ -46,6 +53,7 @@ const TopText = styled.span`
 `;
 
 const Bottom = styled.div`
+  margin-top: 50px;
   display: flex;
   justify-content: space-between;
   ${mobile({ flexDirection: "column" })}
@@ -144,15 +152,37 @@ const SummaryButton = styled.button`
   background: #000;
   color: white;
 `;
+
+const ProductDelete = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 50px;
+  cursor: pointer;
+`;
 const key = process.env.REACT_API_STRIPEKEY;
 
 export const Cart = () => {
-  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cartItems);
+  console.log(cart, "cart");
+
   const [stripeToken, setStripeToken] = useState(null);
   const history = useNavigate();
   const onToken = (token) => {
     setStripeToken(token);
   };
+  const handlesub = (id) => {
+    dispatch(removeItemFromCart({ id }));
+  };
+  const handleadd = (id) => {
+    dispatch(addProduct({ id }));
+  };
+
+  const handleClear = (id) => {
+    dispatch(clearItemFromCart({ id }));
+  };
+
   useEffect(() => {
     const makeRequest = async () => {
       try {
@@ -171,6 +201,7 @@ export const Cart = () => {
     };
     stripeToken && makeRequest();
   }, [stripeToken, cart.total, history]);
+
   return (
     <Container>
       <Annoucement />
@@ -188,18 +219,18 @@ export const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {cart.products.map((product) => (
+            {cart.map((product) => (
               <Product>
                 <ProductDetail>
-                  <Image src={require("../assests/imgs/hoodie.jpg")} />
+                  <Image src={product.imageSrc} />
                   <Details>
                     <ProductName>
                       <b>Product:</b>
-                      {product.title}
+                      {product.name}
                     </ProductName>
                     <ProductId>
                       <b>ID:</b>
-                      {product._id}
+                      {product.id}
                     </ProductId>
                     <ProductColor color={product.color} />
                     <ProductSize>
@@ -210,15 +241,24 @@ export const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <RemoveIcon />
+                    <RemoveIcon
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handlesub(product.id)}
+                    />
                     <ProductAmount>{product.quantity}</ProductAmount>
 
-                    <AddIcon />
+                    <AddIcon
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleadd(product.id)}
+                    />
                   </ProductAmountContainer>
                   <ProductPrice>
                     $ {product.price * product.quantity}
                   </ProductPrice>
                 </PriceDetail>
+                <ProductDelete Title="Remove Item">
+                  <HighlightOffIcon onClick={() => handleClear(product.id)} />
+                </ProductDelete>
               </Product>
             ))}
             <Hr />

@@ -14,7 +14,7 @@ export const Home = () => {
       <NavBar />
       <Slider />
       <Categories />
-      <Product />
+
       <Newsletter />
       <Footer />
     </div>

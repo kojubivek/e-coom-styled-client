@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
@@ -8,12 +8,14 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import { Badge } from "@mui/material";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { mobile } from "../responsive";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { getcat } from "../redux/category/categoryActions";
 const Container = styled.div`
-  height: 60px;
+  height: 80px;
   background-color: "#000";
   margin-bottom: 20px;
+
   ${mobile({ height: "50px" })}
 `;
 const Wrapper = styled.div`
@@ -70,9 +72,44 @@ const Logo = styled.h1`
   ${mobile({ fontSize: "24px" })}
 `;
 
-export const NavBar = () => {
-  const quantity = useSelector((state) => state.cart.quantity);
+const Bottom = styled.div`
+  width: 100vw;
+  background-color: #d16767;
+  justify-content: center;
+  display: flex;
+`;
 
+const NavItems = styled.div`
+  border: 1px indianred solid;
+  height: 50px;
+  margin-right: 25px;
+  align-items: center;
+
+  padding: 10px;
+  cursor: pointer;
+
+  :hover {
+    color: white;
+  }
+`;
+
+const Title = styled.h1``;
+
+export const NavBar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const quantity = useSelector((state) => state.cart.cartItems.length);
+  const catItems = useSelector((state) => state.category.categories);
+  const catName = catItems.map((items) => items.name);
+
+  console.log(catName, "cateirems");
+  useEffect(() => {
+    dispatch(getcat());
+  }, [dispatch]);
+  const handleClick = (e) => {
+    const category = e;
+    console.log(category, "clicked");
+  };
   return (
     <Container>
       <Wrapper>
@@ -87,18 +124,27 @@ export const NavBar = () => {
           </SearchBar>
         </Left>
         <Center>
-          <Logo>FootyBaller</Logo>
+          <Link to="/">
+            {" "}
+            <Logo Title="Footyballer">FootyBaller</Logo>
+          </Link>
+
           <SportsSoccerIcon />
         </Center>
         <Right>
-          <MenuItem>
-            <LoginIcon />{" "}
+          <MenuItem Title="Login Here">
+            <Link to="/login">
+              <LoginIcon />{" "}
+            </Link>
           </MenuItem>
-          <MenuItem>
-            <AppRegistrationIcon />
+
+          <MenuItem Title="Register Here">
+            <Link to="/register">
+              <AppRegistrationIcon />
+            </Link>
           </MenuItem>
           <Link to="/cart">
-            <MenuItem>
+            <MenuItem Title="Your Shopping Bag">
               <Badge badgeContent={quantity} color="primary">
                 {" "}
                 <ShoppingBagOutlinedIcon />
@@ -107,6 +153,15 @@ export const NavBar = () => {
           </Link>
         </Right>
       </Wrapper>
+      <Bottom>
+        {catItems.map((items, i) => (
+          <NavItems key={items._id}>
+            <Link to={`/products/${items._id}`}>
+              <Title>{items.name}</Title>
+            </Link>
+          </NavItems>
+        ))}
+      </Bottom>
     </Container>
   );
 };

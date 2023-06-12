@@ -9,11 +9,13 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
 import { publicRequest } from "../helper/axiosHelper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../redux/cartRedux";
+import { getproducts } from "../redux/product/productAction";
 const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 50px;
+  margin-top: 200px;
   display: flex;
   ${mobile({ padding: "10px", flexDirection: "column" })}
 `;
@@ -111,23 +113,40 @@ const Button = styled.button`
 
 export const ProductPage = () => {
   const location = useLocation();
-  const id = location.pathname.split("/")[2];
+  const productId = location.pathname.split("/")[2];
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(0);
-  const [color, setColor] = useState(0);
+  // const [color, setColor] = useState(0);
   const [size, setSize] = useState(0);
   const dispatch = useDispatch();
+  const [products, setproducts] = useState({});
+  const allproducts = useSelector((state) => state.product.products);
   useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const res = await publicRequest.get("/products/find/" + id);
-        setProduct(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getProduct();
-  }, [id]);
+    dispatch(getproducts());
+    getselectedProducts(productId);
+  }, [productId]);
+  const getselectedProducts = (id) => {
+    const selectedProducts = allproducts.filter((item) => id === item._id);
+    const selectedProductsObject = {};
+
+    selectedProducts.forEach((product) => {
+      setproducts({ ...product, [product]: product.value });
+    });
+
+    return selectedProductsObject;
+  };
+
+  // // useEffect(() => {
+  // //   const getProduct = async () => {
+  // //     try {
+  // //       const res = await publicRequest.get("/products/find/" + id);
+  // //       setProduct(res.data);
+  // //     } catch (error) {
+  // //       console.log(error);
+  // //     }
+  // //   };
+  // //   getProduct();
+  // }, [id]);
 
   const handleQuantity = (type) => {
     if (type === "dec") {
@@ -138,7 +157,8 @@ export const ProductPage = () => {
   };
   const handleClick = () => {
     //update cart
-    dispatch(addProduct({ product, quantity }));
+    console.log(products, "productssss");
+    dispatch(addProduct({ products, quantity }));
   };
   return (
     <Container>
@@ -146,21 +166,21 @@ export const ProductPage = () => {
       <NavBar />
       <Wrapper>
         <ImgContainer>
-          <Image src={require("../assests/imgs/Ac milan home kit.jpg")} />
+          <Image src={products.images} />
         </ImgContainer>
         <InfoContainer>
-          <Tittle>{product.title}</Tittle>
-          <Description>AC Milan Home Kit</Description>
-          <Price>$150</Price>
+          <Tittle>{products.name}</Tittle>
+          <Description>{products.description}</Description>
+          <Price>${products.price}</Price>
           <FilterContainer>
-            <Filter>
+            {/* <Filter>
               <FilterTitle>Color</FilterTitle>
 
               <FilterColor color="yellow"></FilterColor>
               <FilterColor color="red"></FilterColor>
               <FilterColor color="blue"></FilterColor>
               <FilterColor color="black"></FilterColor>
-            </Filter>
+            </Filter> */}
             <Filter>
               <FilterTitle>Size</FilterTitle>
               <FilterSize onChange={(e) => setSize(e.target.value)}>

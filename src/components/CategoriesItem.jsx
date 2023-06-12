@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { Link } from "react-router-dom";
 
 import { mobile } from "../responsive";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsBycat, getproducts } from "../redux/product/productAction";
+import { ProductCard } from "./ProductCard";
 const Container = styled.div`
-  flex: 1;
   margin: 3px;
   height: 70vh;
-  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
 `;
 const Image = styled.img`
   width: 100%;
@@ -30,6 +35,8 @@ const Info = styled.div`
 const Title = styled.h1`
   color: #021518;
   margin-bottom: 20px;
+  text-align: center;
+  font-size: 80px;
 `;
 const Button = styled.button`
   border: none;
@@ -40,16 +47,33 @@ const Button = styled.button`
   cursor: pointer;
 `;
 export const CategoriesItem = ({ item }) => {
+  const [products, setproducts] = useState([]);
+  const dispatch = useDispatch();
+  const allproducts = useSelector((state) => state.product.products);
+
+  const getselectedProducts = (id) => {
+    return allproducts.filter((item) => id === item.parentCat);
+  };
+
+  useEffect(() => {
+    dispatch(getproducts());
+    setproducts(getselectedProducts(item._id));
+  }, [item]);
   return (
     <div>
+      <hr />
+      <Title>{item.name}</Title>
+      <hr />
       <Container>
-        <Link to={`/products/${item.cat}`}>
-          <Image src={item.img} />
-          <Info>
-            <Title>{item.title}</Title>
-            <Button>Shop Now</Button>
-          </Info>
-        </Link>
+        {products.map((product) => (
+          <ProductCard
+            key={product._id}
+            id={product._id}
+            name={product.name}
+            imageSrc={product.images}
+            price={product.price}
+          />
+        ))}
       </Container>
     </div>
   );
