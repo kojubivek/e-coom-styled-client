@@ -5,7 +5,7 @@ const cartState = {
   cartItems: [],
 };
 const addCartItem = (cartItems, productToAdd) => {
-  const existingCartItem = cartItems.find(
+  const existingCartItem = cartItems?.find(
     (cartItem) => cartItem.id === productToAdd.id
   );
 
@@ -25,7 +25,7 @@ const removeCartItem = (cartItems, cartItemToRemove) => {
   );
 
   if (existingCartItem.quantity === 1) {
-    return cartItems.filter((cartItem) => cartItem.id != cartItemToRemove.id);
+    return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
   }
 
   return cartItems.map((cartItem) =>

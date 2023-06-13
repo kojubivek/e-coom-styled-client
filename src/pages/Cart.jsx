@@ -167,6 +167,12 @@ export const Cart = () => {
   const cart = useSelector((state) => state.cart.cartItems);
   console.log(cart, "cart");
 
+  const cartTotal = cart.reduce(
+    (a, item) => (a = a + item.quantity * item.price),
+    0
+  );
+  console.log(cartTotal, "carttotal");
+
   const [stripeToken, setStripeToken] = useState(null);
   const history = useNavigate();
   const onToken = (token) => {
@@ -267,7 +273,7 @@ export const Cart = () => {
             <SummaryTitle>Order Summary</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Sub Total</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>$ {cartTotal}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -279,13 +285,13 @@ export const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>$ {cartTotal}</SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
               name="FootyBaller"
               billingAddress
               shippingAddress
-              description={`Your total is $ ${cart.total}`}
+              description={`Your total is $ ${cartTotal}`}
               amount={cart.total * 100}
               token={onToken}
               stripeKey={key}

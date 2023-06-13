@@ -1,11 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const cartState = {
-  products: [],
-  quantity: 0,
-  total: 0,
-};
-
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -18,6 +12,10 @@ const userSlice = createSlice({
       state.isFetching = true;
     },
     loginSuccess: (state, action) => {
+      state.isFetching = false;
+      state.currentUser = action.payload;
+    },
+    registerSuccess: (state, action) => {
       state.isFetching = false;
       state.currentUser = action.payload;
     },

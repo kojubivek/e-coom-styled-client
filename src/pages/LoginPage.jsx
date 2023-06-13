@@ -4,6 +4,7 @@ import BgImg from "../assests/imgs/RegisterBackground.jpg";
 import { mobile } from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/apiCalls";
+import { Link } from "react-router-dom";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -55,12 +56,12 @@ const Button = styled.button`
     cursor: not-allowed;
   }
 `;
-const Link = styled.a`
-  margin: 10px 0px;
-  font-style: 12px;
-  text-decoration: underline;
-  cursor: pointer;
-`;
+// const Link = styled.a`
+//   margin: 10px 0px;
+//   font-style: 12px;
+//   text-decoration: underline;
+//   cursor: pointer;
+// `;
 const Error = styled.span`
   color: red;
 `;

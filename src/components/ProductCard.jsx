@@ -30,7 +30,7 @@ const Info = styled.div`
   }
 `;
 
-const CardContainer = styled.div`
+export const CardContainer = styled.div`
   position: relative;
   width: 100%;
   max-width: 300px;
@@ -46,7 +46,7 @@ const CardContainer = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
+export const ImageContainer = styled.div`
   width: 100%;
   cursor: pointer;
   &:hover {

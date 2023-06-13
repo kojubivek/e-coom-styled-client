@@ -7,9 +7,10 @@ import { Newsletter } from "../components/Newsletter";
 import { Footer } from "../components/Footer";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
-import { ProductCard } from "../components/ProductCard";
+import { ImageContainer, ProductCard } from "../components/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getproducts } from "../redux/product/productAction";
+import { Skeleton } from "@mui/material";
 const Container = styled.div``;
 const Title = styled.h1`
   margin: 20px;
@@ -55,6 +56,11 @@ const Wrapper = styled.div`
   ${mobile({ padding: "0px", flexDirection: "column" })}
 `;
 
+const CardContainer = styled.div`
+  height: 40vh;
+  width: 40vw;
+`;
+
 export const ProductList = () => {
   const [products, setproducts] = useState([]);
   const dispatch = useDispatch();
@@ -78,10 +84,14 @@ export const ProductList = () => {
     return allproducts.filter((item) => cat === item.parentCat);
   };
 
+  const isFetchingProducts = useSelector((state) => state.product.isFetching);
+
   useEffect(() => {
     dispatch(getproducts());
     setproducts(getselectedProducts(cat));
   }, [dispatch, cat]);
+
+  console.log("isFetchingProducts", isFetchingProducts);
 
   return (
     <Container>
@@ -123,14 +133,64 @@ export const ProductList = () => {
         </Filter>
       </FilterContainer>
       <Wrapper>
-        {products.map((item, i) => (
-          <ProductCard
-            id={item._id}
-            name={item.name}
-            imageSrc={item.images}
-            price={item.price}
-          />
-        ))}
+        {isFetchingProducts ? (
+          <>
+            <CardContainer>
+              <Skeleton variant="rectangular" width={300} height={250} />
+              <Skeleton
+                variant="rectangular"
+                style={{ marginTop: "40px" }}
+                width={50}
+                height={25}
+              />
+              <Skeleton
+                variant="rectangular"
+                style={{ marginTop: "40px" }}
+                width={300}
+                height={25}
+              />
+            </CardContainer>
+            <CardContainer>
+              <Skeleton variant="rectangular" width={300} height={250} />
+              <Skeleton
+                variant="rectangular"
+                style={{ marginTop: "40px" }}
+                width={50}
+                height={25}
+              />
+              <Skeleton
+                variant="rectangular"
+                style={{ marginTop: "40px" }}
+                width={300}
+                height={25}
+              />
+            </CardContainer>
+            <CardContainer>
+              <Skeleton variant="rectangular" width={300} height={250} />
+              <Skeleton
+                variant="rectangular"
+                style={{ marginTop: "40px" }}
+                width={50}
+                height={25}
+              />
+              <Skeleton
+                variant="rectangular"
+                style={{ marginTop: "40px" }}
+                width={300}
+                height={25}
+              />
+            </CardContainer>
+          </>
+        ) : (
+          products.map((item, i) => (
+            <ProductCard
+              id={item._id}
+              name={item.name}
+              imageSrc={item.images}
+              price={item.price}
+            />
+          ))
+        )}
       </Wrapper>
 
       <Newsletter />

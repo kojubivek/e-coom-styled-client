@@ -98,7 +98,7 @@ const Title = styled.h1``;
 export const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const quantity = useSelector((state) => state.cart.cartItems.length);
+  const quantity = useSelector((state) => state.cart?.cartItems?.length);
   const catItems = useSelector((state) => state.category.categories);
   const catName = catItems.map((items) => items.name);
 
