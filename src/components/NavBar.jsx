@@ -5,12 +5,15 @@ import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import { Badge } from "@mui/material";
+import { Badge, Menu } from "@mui/material";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { mobile } from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getcat } from "../redux/category/categoryActions";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { loginSuccess, logoutSuccess } from "../redux/userSlice";
+import localStorage from "redux-persist/es/storage";
 const Container = styled.div`
   height: 80px;
   background-color: "#000";
@@ -80,7 +83,6 @@ const Bottom = styled.div`
 `;
 
 const NavItems = styled.div`
-  border: 1px indianred solid;
   height: 50px;
   margin-right: 25px;
   align-items: center;
@@ -93,6 +95,8 @@ const NavItems = styled.div`
   }
 `;
 
+const Text = styled.h3``;
+
 const Title = styled.h1``;
 
 export const NavBar = () => {
@@ -100,9 +104,27 @@ export const NavBar = () => {
   const navigate = useNavigate();
   const quantity = useSelector((state) => state.cart?.cartItems?.length);
   const catItems = useSelector((state) => state.category.categories);
-  const catName = catItems.map((items) => items.name);
+  const catName = catItems?.map((items) => items.name);
 
-  console.log(catName, "cateirems");
+  const getUser = useSelector((state) => state.user.currentUser);
+
+  console.log(getUser, "cartitems");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClickMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+
+    navigate("/");
+  };
+  const handleLogout = () => {
+    setAnchorEl(null);
+    localStorage.removeItem("persist:root");
+
+    window.location.reload();
+  };
   useEffect(() => {
     dispatch(getcat());
   }, [dispatch]);
@@ -132,17 +154,43 @@ export const NavBar = () => {
           <SportsSoccerIcon />
         </Center>
         <Right>
-          <MenuItem Title="Login Here">
-            <Link to="/login">
-              <LoginIcon />{" "}
-            </Link>
-          </MenuItem>
+          {getUser?._id ? (
+            <MenuItem>
+              <Text onClick={handleClickMenu}>
+                {" "}
+                Welcome, {getUser.username}
+                <KeyboardArrowDownIcon />
+              </Text>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem onClick={handleLogout}>
+                  <Text>Logout</Text>
+                </MenuItem>
+              </Menu>
+            </MenuItem>
+          ) : (
+            <>
+              <MenuItem Title="Login Here">
+                <Link to="/login">
+                  <LoginIcon />{" "}
+                </Link>
+              </MenuItem>
 
-          <MenuItem Title="Register Here">
-            <Link to="/register">
-              <AppRegistrationIcon />
-            </Link>
-          </MenuItem>
+              <MenuItem Title="Register Here">
+                <Link to="/register">
+                  <AppRegistrationIcon />
+                </Link>
+              </MenuItem>
+            </>
+          )}
+
           <Link to="/cart">
             <MenuItem Title="Your Shopping Bag">
               <Badge badgeContent={quantity} color="primary">
@@ -154,7 +202,7 @@ export const NavBar = () => {
         </Right>
       </Wrapper>
       <Bottom>
-        {catItems.map((items, i) => (
+        {catItems?.map((items, i) => (
           <NavItems key={items._id}>
             <Link to={`/products/${items._id}`}>
               <Title>{items.name}</Title>

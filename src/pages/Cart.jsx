@@ -18,6 +18,7 @@ import {
   removeItemFromCart,
 } from "../redux/cartRedux";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { userRequest } from "../helper/axiosHelper";
 const Container = styled.div``;
 const Wrapper = styled.div`
   margin-top: 100px;
@@ -160,13 +161,15 @@ const ProductDelete = styled.div`
   margin-left: 50px;
   cursor: pointer;
 `;
-const key = process.env.REACT_API_STRIPEKEY;
+const key = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
 export const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cartItems);
   console.log(cart, "cart");
 
+  const { _id } = useSelector((state) => state.user.currentUser);
+  console.log(_id, "50");
   const cartTotal = cart.reduce(
     (a, item) => (a = a + item.quantity * item.price),
     0
@@ -174,6 +177,8 @@ export const Cart = () => {
   console.log(cartTotal, "carttotal");
 
   const [stripeToken, setStripeToken] = useState(null);
+  console.log(stripeToken, "stripetoken");
+
   const history = useNavigate();
   const onToken = (token) => {
     setStripeToken(token);
@@ -192,14 +197,14 @@ export const Cart = () => {
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const res = await axios.post(
-          "http://localhost:8000/api/v1/checkout/payment",
-          {
-            tokenId: stripeToken.id,
-            amount: cart.total * 100,
-          }
-        );
-        console.log(res.data);
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          paymentDetails: stripeToken.card,
+          amount: cartTotal * 100,
+          userId: _id,
+          products: cart,
+        });
+        console.log(res.data, "after");
         history("/success", { data: res.data });
       } catch (error) {
         console.log(error);
@@ -293,6 +298,7 @@ export const Cart = () => {
               shippingAddress
               description={`Your total is $ ${cartTotal}`}
               amount={cart.total * 100}
+              currency="AUD"
               token={onToken}
               stripeKey={key}
             >

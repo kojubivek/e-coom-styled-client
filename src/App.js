@@ -11,22 +11,41 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { BrowserRouter } from "react-router-dom";
 import { Success } from "./pages/Success";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import { PrivateRouter } from "./components/PrivateRouter";
+import { Dashboard } from "./pages/Dashboard";
 
 const App = () => {
-  const user = useSelector((state) => state.user.currentuser);
+  const user = useSelector((state) => state.user.currentUser);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/products/:category" element={<ProductList />} />
-        <Route exact path="/product/:id" element={<ProductPage />} />
-        <Route exact path="/cart" element={<Cart />} />
-        <Route path="/success" element={<Success />} />
-        <Route exact path="/login" element={<LoginPage />} />
+    <>
+      <BrowserRouter>
+        <Routes>
+          {/* {!user && (
+            <> */}
+          <Route exact path="/login" element={<LoginPage />} />
 
-        <Route exact path="/register" element={<RegisterPage />} />
-      </Routes>
-    </BrowserRouter>
+          <Route exact path="/register" element={<RegisterPage />} />
+          {/* </>
+          )} */}
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/products/:category" element={<ProductList />} />
+          <Route exact path="/product/:id" element={<ProductPage />} />
+          <Route exact path="/cart" element={<Cart />} />
+          <Route path="/success" element={<Success />} />
+
+          <Route
+            path="/dashboard/:id"
+            element={
+              <PrivateRouter>
+                <Dashboard />
+              </PrivateRouter>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer />
+    </>
   );
 };
 

@@ -4,7 +4,8 @@ import BgImg from "../assests/imgs/RegisterBackground.jpg";
 import { mobile } from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/apiCalls";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { NavBar } from "../components/NavBar";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -66,38 +67,50 @@ const Error = styled.span`
   color: red;
 `;
 export const LoginPage = () => {
-  const [userName, setUserName] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  const origin = location?.state?.from?.pathname || "/";
+  const navigate = useNavigate();
+
   const { isFetching, error } = useSelector((state) => state.user);
+  const token = localStorage.getItem("persist:root");
+  const usertoken = JSON.parse(JSON.parse(token)?.user)?.currentUser
+    ?.accesstoken;
+  console.log(usertoken);
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(login({ userName, password }));
+    dispatch(login({ username, password })) && navigate(origin);
   };
   return (
-    <Container>
-      <Wrapper>
-        <Title>Log In</Title>
-        <Form>
-          <Input
-            placeholder="UserName"
-            onChange={(e) => setUserName(e.target.value)}
-          />
+    <>
+      <NavBar />
+      <Container>
+        <Wrapper>
+          <Title>Log In</Title>
+          <Form>
+            <Input
+              placeholder="UserName"
+              onChange={(e) => setUserName(e.target.value)}
+            />
 
-          <Input
-            placeholder="Password"
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            <Input
+              placeholder="Password"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-          <Button onClick={handleClick} disabled={isFetching} type="submit">
-            Submit{" "}
-          </Button>
-          {error && <Error>something went wrong</Error>}
-          <Link>Forgot Password?</Link>
-          <Link to="/register">Create A new Account</Link>
-        </Form>
-      </Wrapper>
-    </Container>
+            <Button onClick={handleClick} disabled={isFetching} type="submit">
+              Submit{" "}
+            </Button>
+            {error && <Error>something went wrong</Error>}
+            <Link>Forgot Password?</Link>
+            <Link to="/register">Create A new Account</Link>
+          </Form>
+        </Wrapper>
+      </Container>
+    </>
   );
 };

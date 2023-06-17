@@ -33,6 +33,7 @@ const Info = styled.div`
 export const CardContainer = styled.div`
   position: relative;
   width: 100%;
+
   max-width: 300px;
   margin-right: 20px;
   border: 1px solid #ccc;
@@ -48,6 +49,7 @@ export const CardContainer = styled.div`
 
 export const ImageContainer = styled.div`
   width: 100%;
+
   cursor: pointer;
   &:hover {
     ${Info} {
