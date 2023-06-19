@@ -157,9 +157,19 @@ export const ProductPage = () => {
   };
   const handleClick = () => {
     //update cart
+    console.log("quantity", quantity);
     console.log(products, "productssss");
-    dispatch(addProduct({ products, quantity }));
+    dispatch(
+      addProduct({
+        id: products._id,
+        imageSrc: products.images,
+        name: products.name,
+        price: products.price,
+        quantity: quantity,
+      })
+    );
   };
+  console.log(products, "productssss");
   return (
     <Container>
       <Annoucement />
@@ -201,7 +211,7 @@ export const ProductPage = () => {
               <Amount>{quantity}</Amount>
               <AddIcon onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button onClick={handleClick}>Add To Cart</Button>
+            <Button onClick={() => handleClick(quantity)}>Add To Cart</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

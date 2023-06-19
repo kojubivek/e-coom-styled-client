@@ -15,15 +15,17 @@ import { useNavigate } from "react-router-dom";
 import {
   addProduct,
   clearItemFromCart,
+  deleteCart,
   removeItemFromCart,
 } from "../redux/cartRedux";
+import CircularProgress from "@mui/material/CircularProgress";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { userRequest } from "../helper/axiosHelper";
 const Container = styled.div``;
 const Wrapper = styled.div`
   margin-top: 100px;
   padding: 20px;
-  ${mobile({ margin: "10px" })}
+  ${mobile({ marginTop: "100px" })}
 `;
 const Title = styled.h1`
   padding: 20px;
@@ -204,7 +206,7 @@ export const Cart = () => {
           userId: _id,
           products: cart,
         });
-        console.log(res.data, "after");
+        dispatch(deleteCart());
         history("/success", { data: res.data });
       } catch (error) {
         console.log(error);
@@ -222,7 +224,7 @@ export const Cart = () => {
         <Top>
           <TopButton>Continue Shopping</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
+            <TopText>Shopping Bag({cart.length})</TopText>
             <TopText>Your Wishlist(0)</TopText>
           </TopTexts>
 

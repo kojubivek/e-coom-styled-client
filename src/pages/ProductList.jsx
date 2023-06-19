@@ -20,6 +20,7 @@ const FilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 100px;
+  ${mobile({ marginTop: "200px" })}
 `;
 
 const Filter = styled.div`

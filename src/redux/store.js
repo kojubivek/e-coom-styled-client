@@ -3,6 +3,7 @@ import cartReducer from "./cartRedux";
 import userReducer from "./userSlice";
 import categoryReducer from "./category/categorySlice";
 import productReducer from "./product/productSlice";
+import orderReducer from "./order/orderSlice.js";
 import {
   persistStore,
   persistReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   category: categoryReducer,
   product: productReducer,
+  order: orderReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({

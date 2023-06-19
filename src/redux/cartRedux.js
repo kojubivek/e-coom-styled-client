@@ -9,6 +9,18 @@ const addCartItem = (cartItems, productToAdd) => {
     (cartItem) => cartItem.id === productToAdd.id
   );
 
+  if (productToAdd.quantity > 1 && existingCartItem) {
+    return cartItems.map((cartItem) =>
+      cartItem.id === productToAdd.id
+        ? { ...cartItem, quantity: cartItem.quantity + productToAdd.quantity }
+        : cartItem
+    );
+  }
+
+  if (productToAdd.quantity > 1) {
+    return [...cartItems, { ...productToAdd }];
+  }
+
   if (existingCartItem) {
     return cartItems.map((cartItem) =>
       cartItem.id === productToAdd.id
@@ -66,6 +78,7 @@ export const {
   setIsCartOpen,
   removeItemFromCart,
   clearItemFromCart,
+  deleteCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

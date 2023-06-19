@@ -18,7 +18,7 @@ const Container = styled.div`
   height: 80px;
   background-color: "#000";
   margin-bottom: 20px;
-
+  z-index: 1;
   ${mobile({ height: "50px" })}
 `;
 const Wrapper = styled.div`
@@ -170,6 +170,12 @@ export const NavBar = () => {
                   "aria-labelledby": "basic-button",
                 }}
               >
+                <MenuItem>
+                  <Link to={`/dashboard/${getUser._id}`}>
+                    <Text>Dashboard</Text>
+                  </Link>
+                </MenuItem>
+
                 <MenuItem onClick={handleLogout}>
                   <Text>Logout</Text>
                 </MenuItem>

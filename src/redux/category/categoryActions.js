@@ -10,6 +10,7 @@ export const getcat = () => async (dispatch) => {
       dispatch(categorySuccess(res.data.data));
     }
   } catch (error) {
+    console.log(error);
     dispatch(fetchError());
   }
 };
