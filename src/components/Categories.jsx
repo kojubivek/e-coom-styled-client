@@ -13,7 +13,11 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  ${mobile({ padding: "0px", flexDirection: "column" })}
+  ${mobile({
+    padding: "0px",
+    flexDirection: "column",
+    marginTop: "150px",
+  })}
 `;
 
 export const Categories = () => {

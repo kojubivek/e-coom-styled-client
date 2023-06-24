@@ -3,6 +3,7 @@ import { orderSuccess, fetchError, fetchorder } from "./orderSlice";
 
 export const getOrder = (id) => async (dispatch) => {
   dispatch(fetchorder());
+  console.log(id);
   console.log("orderfetching");
   try {
     const res = await userRequest.get(`order/find/${id}`);

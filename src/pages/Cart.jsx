@@ -168,18 +168,15 @@ const key = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 export const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cartItems);
-  console.log(cart, "cart");
 
-  const { _id } = useSelector((state) => state.user.currentUser);
-  console.log(_id, "50");
-  const cartTotal = cart.reduce(
+  const { _id } = useSelector((state) => state.user?.currentUser);
+
+  const cartTotal = cart?.reduce(
     (a, item) => (a = a + item.quantity * item.price),
     0
   );
-  console.log(cartTotal, "carttotal");
 
   const [stripeToken, setStripeToken] = useState(null);
-  console.log(stripeToken, "stripetoken");
 
   const history = useNavigate();
   const onToken = (token) => {
@@ -232,8 +229,8 @@ export const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {cart.map((product) => (
-              <Product>
+            {cart.map((product, i) => (
+              <Product key={i}>
                 <ProductDetail>
                   <Image src={product.imageSrc} />
                   <Details>
@@ -280,7 +277,7 @@ export const Cart = () => {
             <SummaryTitle>Order Summary</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Sub Total</SummaryItemText>
-              <SummaryItemPrice>$ {cartTotal}</SummaryItemPrice>
+              <SummaryItemPrice>${cartTotal} </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -292,7 +289,7 @@ export const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cartTotal}</SummaryItemPrice>
+              <SummaryItemPrice>${cartTotal} </SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
               name="FootyBaller"

@@ -79,7 +79,7 @@ export const LoginPage = () => {
   const token = localStorage.getItem("persist:root");
   const usertoken = JSON.parse(JSON.parse(token)?.user)?.currentUser
     ?.accesstoken;
-  console.log(usertoken);
+
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(login({ username, password })) && navigate(origin);

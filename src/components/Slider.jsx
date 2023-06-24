@@ -55,8 +55,9 @@ const Slide = styled.div`
   background-color: ${(props) => props.bg};
 `;
 const ImageContainer = styled.div`
-  height: 80vh;
+  height: 100vh;
   width: 100vw;
+  margin-top: 150px;
   flex: 1;
   display: flex;
   justify-content: center;
@@ -64,9 +65,8 @@ const ImageContainer = styled.div`
   margin-left: 50px;
 `;
 const Image = styled.img`
-  height: 80vh;
-  width: 60vw;
-  object-fit: fill;
+  width: 100%;
+
   border-radius: 25px;
 `;
 const InfoContainer = styled.div`
@@ -97,7 +97,6 @@ export const Slider = () => {
     dispatch(getcat());
   }, [dispatch]);
   const handleClick = (direction) => {
-    console.log(direction);
     if (direction === "left") {
       setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
     } else {

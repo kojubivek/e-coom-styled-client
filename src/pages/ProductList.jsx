@@ -92,8 +92,6 @@ export const ProductList = () => {
     setproducts(getselectedProducts(cat));
   }, [dispatch, cat]);
 
-  console.log("isFetchingProducts", isFetchingProducts);
-
   return (
     <Container>
       <Annoucement />
@@ -185,6 +183,7 @@ export const ProductList = () => {
         ) : (
           products.map((item, i) => (
             <ProductCard
+              key={i}
               id={item._id}
               name={item.name}
               imageSrc={item.images}

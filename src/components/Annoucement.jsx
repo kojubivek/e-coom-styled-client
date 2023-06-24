@@ -11,6 +11,8 @@ const Container = styled.div`
 `;
 export const Annoucement = () => {
   return (
-    <Container>Super Cheap FootBal Apperals.Free Shipping over $60.</Container>
+    <Container>
+      Super Cheap FootBall Apperals. Free Shipping over $60.
+    </Container>
   );
 };

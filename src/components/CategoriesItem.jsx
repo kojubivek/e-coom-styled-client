@@ -13,6 +13,10 @@ const Container = styled.div`
   flex: 1;
   align-items: center;
   justify-content: space-between;
+  ${mobile({
+    display: "flex",
+    flexDirection: "column",
+  })}
 `;
 const Image = styled.img`
   width: 100%;
@@ -60,7 +64,7 @@ export const CategoriesItem = ({ item }) => {
     setproducts(getselectedProducts(item._id));
   }, [item]);
   return (
-    <div>
+    <>
       <hr />
       <Title>{item.name}</Title>
       <hr />
@@ -75,6 +79,6 @@ export const CategoriesItem = ({ item }) => {
           />
         ))}
       </Container>
-    </div>
+    </>
   );
 };

@@ -6,6 +6,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../redux/cartRedux";
+import { mobile } from "../responsive";
 const Image = styled.img`
   width: 100%;
   height: auto;
@@ -45,6 +46,10 @@ export const CardContainer = styled.div`
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
+
+  ${mobile({
+    marginBottom: "10px",
+  })}
 `;
 
 export const ImageContainer = styled.div`

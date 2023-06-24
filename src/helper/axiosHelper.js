@@ -7,8 +7,6 @@ const storage = JSON.parse(localStorage.getItem("persist:root"))?.user;
 
 const TOKEN = storage && JSON.parse(storage).currentUser?.accesstoken;
 
-console.log("storage", storage);
-
 const productApi = api + "/products";
 
 export const publicRequest = axios.create({

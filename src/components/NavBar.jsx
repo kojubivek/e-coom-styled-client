@@ -108,7 +108,6 @@ export const NavBar = () => {
 
   const getUser = useSelector((state) => state.user.currentUser);
 
-  console.log(getUser, "cartitems");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClickMenu = (event) => {
