@@ -88,10 +88,9 @@ export const Footer = () => {
           <SportsSoccerIcon />
         </Logo>
         <Desc>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime
-          laudantium, eligendi ducimus, qui adipisci inventore at tempore sunt
-          officia voluptates repellat tempora sequi voluptatum quo distinctio
-          necessitatibus veniam rerum libero.
+          Footyballer E-Commerce: Your one-stop shop for high-quality football
+          apparel, shoes, and jackets. Shop now and express your love for the
+          game with our stylish merchandise.
         </Desc>
         <SocialContainer>
           <SocialIcon color="skyblue">

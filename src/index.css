@@ -13,3 +13,13 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+/* hr {
+  border: 0;
+  clear: both;
+  display: block;
+  width: 96%;
+  background-color: #0f0e0e;
+  height: 1px;
+  margin-bottom: 10px;
+} */

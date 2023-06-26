@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/apiCalls";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { NavBar } from "../components/NavBar";
+import { getToken } from "../helper/axiosHelper";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;

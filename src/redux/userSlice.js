@@ -4,6 +4,7 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     currentUser: {},
+    accesstoken: {},
     isFetching: false,
     error: false,
   },
